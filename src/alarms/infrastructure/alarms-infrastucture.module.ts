@@ -1,0 +1,17 @@
+import { Module } from "@nestjs/common";
+import { OrmAlarmPersistenceModule } from "./persistence/orm/orm-persistence.module";
+import { InMemoryPersistenceModule } from "./persistence/in-memory/in-memory-persistence.module";
+
+@Module({})
+export class AlarmsInfrastuctureModule {
+    static use(driver:'orm' | 'in-memory') {
+        const persistenceModule = driver === 'orm' 
+        ?OrmAlarmPersistenceModule
+        : InMemoryPersistenceModule;
+    return {
+        module: AlarmsInfrastuctureModule,
+        imports: [persistenceModule],
+        exports: [persistenceModule],
+    }
+    };
+}
